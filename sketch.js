@@ -11,6 +11,8 @@ let cacheValidity = false;
 let sites;
 let weights;
 
+const hex = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"];
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   frameRate(20);
@@ -19,8 +21,8 @@ function setup() {
   gridHeight = floor(windowHeight / spacing);
   
   grid = Array.from({length: gridHeight}, () => Array.from({length: gridWidth}, () => 0));
-  colors = Array.from({length: gridWidth * gridHeight}, () => [0, 0, 0]);
-  colorCache = Array.from({length: gridHeight}, () => Array.from({length: gridWidth}, () => 0));
+  colors = Array.from({length: gridWidth * gridHeight}, () => "#000000");
+  colorCache = Array.from({length: gridHeight}, () => Array.from({length: gridWidth}, () => "#000000"));
   
   sites = Array.from({length: gridWidth * gridHeight}, (v, i) => i);
   weights = Array.from({length: gridWidth * gridHeight}, () => 1);
@@ -66,7 +68,7 @@ function drawGrid() {
   }
 }
 
-function mouseClicked() {
+function mousePressed() {
   connect(floor(mouseY / spacing), floor(mouseX / spacing));
 }
 
@@ -96,8 +98,24 @@ function connect(row, col) {
   const didUnion = doAdjacentUnion(row, col, row + 1, col) | doAdjacentUnion(row, col, row, col + 1) | doAdjacentUnion(row, col, row - 1, col) | doAdjacentUnion(row, col, row, col - 1);
   
   if(!didUnion) {
-    colors[find(coordToSite(row, col))] = [random(255) + 1, random(255) + 1, random(255) + 1];
+    colors[find(coordToSite(row, col))] = randomHexColor();
   }
   
   cacheValidity = false;
+}
+
+function randomHexColor() {
+    return "#" + itoh(random(255) + 1) + itoh(random(255) + 1) + itoh(random(255) + 1);
+}
+
+function itoh(i) {
+    i = floor(i)
+    let str = "";
+
+    while(i > 0) {
+        str = hex[(i % 16)] + str;
+        i  = floor(i / 16);
+    }
+
+    return str.padStart(2, '0');
 }
