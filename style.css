@@ -1,9 +1,76 @@
+body::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
 html, body {
     margin: 0;
     padding: 0;
     height: 100%;
-  }
-  canvas {
+    width: 100%;
+    background-color: black;
+    color: white;
+    font-family: sans-serif;
+    overflow-x: hidden;
+    position: absolute;
+}
+
+canvas {
     display: block;
-  }
-  
+    margin: auto;
+    margin-top: 1em;
+}
+
+#canvas {
+    height: 100vh;
+}
+
+.info-overlay {
+    cursor: default;
+    position: absolute;
+    width: 30%;
+    font-size: 3em;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    bottom: 10%;
+
+    animation-name: fadeout;
+    animation-duration: 6s;
+    animation-fill-mode: forwards;
+
+    padding: 0.5em;
+    border-radius: 1em;
+    background-color: rgb(32, 32, 32);
+    text-align: center;
+
+    opacity: 0.75;
+}
+
+@keyframes fadeout {
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+.content {
+    padding: 1em;
+    width: 50%;
+    margin: auto;
+    line-height: 1.7em;
+    font-size: 1.3em;
+}
+
+h1 {
+    margin-top: 0;
+}
+
+p:last-child {
+    text-align: right;
+}

@@ -1,4 +1,4 @@
-const spacing = 50;
+const spacing = 100;
 
 let gridWidth;
 let gridHeight;
@@ -14,11 +14,12 @@ let weights;
 const hex = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"];
 
 function setup() {
-    createCanvas(windowWidth, windowHeight);
-    frameRate(20);
-
     gridWidth = floor(windowWidth / spacing);
     gridHeight = floor(windowHeight / spacing);
+
+    const canvas = createCanvas(gridWidth * spacing, gridHeight * spacing);
+    canvas.parent("canvas");
+    frameRate(30);
 
     grid = Array.from({ length: gridHeight }, () => Array.from({ length: gridWidth }, () => 0));
     colors = Array.from({ length: gridWidth * gridHeight }, () => "#000000");
@@ -29,10 +30,14 @@ function setup() {
 
     stroke(255);
     strokeWeight(0.5);
+    background(0);
 }
 
+function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
+  }
+
 function draw() {
-    background(0);
     noFill();
 
     drawGrid();
@@ -42,6 +47,10 @@ function draw() {
         if(isValid(y, x)) {
             connect(y, x);
         }
+    }
+
+    if(!focused) {
+        frameRate(1);
     }
 }
 
