@@ -35,22 +35,20 @@ function setup() {
 
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
-  }
+}
 
 function draw() {
     noFill();
 
-    drawGrid();
-
-    if(mouseIsPressed) {
-        const y = floor(mouseY / spacing), x = floor(mouseX / spacing);
-        if(isValid(y, x)) {
-            connect(y, x);
-        }
+    if(focused) {
+        drawGrid();
     }
 
-    if(!focused) {
-        frameRate(1);
+    if (mouseIsPressed) {
+        const y = floor(mouseY / spacing), x = floor(mouseX / spacing);
+        if (isValid(y, x)) {
+            connect(y, x);
+        }
     }
 }
 
@@ -107,7 +105,7 @@ function doAdjacentUnion(row, col, row1, col1) {
 }
 
 function connect(row, col) {
-    if(grid[row][col]) return;
+    if (grid[row][col]) return;
     grid[row][col] = 1;
 
     const didUnion = doAdjacentUnion(row, col, row + 1, col) | doAdjacentUnion(row, col, row, col + 1) | doAdjacentUnion(row, col, row - 1, col) | doAdjacentUnion(row, col, row, col - 1);
